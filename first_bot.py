@@ -7,7 +7,12 @@ import requests
 
 
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!"
+                                                                    "\n"
+                                                                    "Some commands you can use:\n"
+                                                                    "/kitty\n"
+                                                                    "/start\n"
+                                                                    "Secret command: /oktay")
 
 
 def echo(update, context):
