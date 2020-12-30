@@ -24,9 +24,16 @@ def shut_up(update, context):
 
 
 def grab_a_kitten(update, context):
-    fn="/tmp/kitty.jpg"
-    kittyurl = "http://placekitten.com/200/300"
+    catapi_token = "CATAPITOKEN"
+    CATAPITOKEN = os.getenv(catapi_token)
+    if CATAPITOKEN is None:
+        print("EEK! Define CATAPITOKEN first. 😹")
+    fn = "/tmp/kitty.jpg"
+    kittyurl = "https://api.thecatapi.com/v1/images/search?limit=1&page=10&order=random"
     r = requests.get(kittyurl)
+    kittypicurl=r.json()[0]["url"]
+    headers = {"x-api-key": CATAPITOKEN}
+    r = requests.get(kittypicurl, headers=headers)
     f = open(fn, "wb")
     r.raw.decode_content = True
     for chunk in r:
