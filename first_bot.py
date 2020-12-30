@@ -30,22 +30,26 @@ def grab_a_kitten(update, context):
     context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(fn, 'rb'))
     os.remove(fn)
 
-api_token = "APITOKEN"
-APITOKEN = os.getenv(api_token)
-updater = Updater(token=APITOKEN, use_context=True)
-dispatcher = updater.dispatcher
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+
+if __name__ == "__main__":
+    api_token = "APITOKEN"
+    APITOKEN = os.getenv(api_token)
+    if APITOKEN is None:
+        exit("EEK! Define APITOKEN first.")
+    updater = Updater(token=APITOKEN, use_context=True)
+    dispatcher = updater.dispatcher
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
-start_handler = CommandHandler('start', start)
-dispatcher.add_handler(start_handler)
-oktay_handler = CommandHandler('oktay', shut_up)
-dispatcher.add_handler(oktay_handler)
-kitty_handler = CommandHandler('kitty', grab_a_kitten)
-dispatcher.add_handler(kitty_handler)
+    start_handler = CommandHandler('start', start)
+    dispatcher.add_handler(start_handler)
+    oktay_handler = CommandHandler('oktay', shut_up)
+    dispatcher.add_handler(oktay_handler)
+    kitty_handler = CommandHandler('kitty', grab_a_kitten)
+    dispatcher.add_handler(kitty_handler)
 
-echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
-dispatcher.add_handler(echo_handler)
+    echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
+    dispatcher.add_handler(echo_handler)
+    # TODO: Add a function to iterate through added handlers. 
 
-
-updater.start_polling()
+    updater.start_polling()
